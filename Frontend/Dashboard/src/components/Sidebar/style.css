@@ -1,0 +1,30 @@
+
+/* style.css */
+
+.Sidebar {
+    width: 240px !important; /* Adjust width as needed */
+    background-color: #ffffff !important; /* Light background color */
+    height: 100vh !important; /* Full height */
+    display: flex !important;
+    flex-direction: column !important; /* Stack items vertically */
+    padding: 16px !important; /* Add padding */
+  }
+  
+  .Sidebar a {
+    text-decoration: none!important; /* Remove underline from links */
+    color: inherit!important; /* Use inherited color */
+  }
+  
+  .ListItemButton:hover {
+    background-color: #000000 !important; /* Change background on hover */
+    color: white !important;
+  }
+  
+  .ListItemText {
+    font-weight: bold!important; /* Make the text bold */
+  }
+  
+  .Toolbar {
+    margin-bottom: 16px!important; /* Add space below the toolbar */
+  }
+  
