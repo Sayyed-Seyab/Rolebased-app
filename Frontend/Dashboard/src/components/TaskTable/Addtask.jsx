@@ -11,6 +11,7 @@ export default function Addtask({ open, setopen, setdata }) {
     dueDate: '',
     status: '',
     createdBy: loginId,
+    updatedby:loginId,
     // assignedmanager: '',
   });
 
@@ -49,9 +50,15 @@ export default function Addtask({ open, setopen, setdata }) {
 
     // If there are no errors, proceed with submission
     if (!Object.values(newErrors).includes(true)) {
+      setvalue({
+        ...value,
+        createdBy: loginId,
+        updatedby:loginId,
+      });
       console.log('Form submitted:', value);
-    
+      if(loginId){
       try {
+       
         const response = await axios.post(`${url}/api/task/add`, value, {
           withCredentials: true
         });
@@ -64,11 +71,12 @@ export default function Addtask({ open, setopen, setdata }) {
             description: '',
             dueDate: '',
             status: '',
-            createdBy: loginId,
-            assignedmanager: ''
+            createdBy: '',
+            assignedmanager: '',
+            updatedby:''
           });
-        } else {
-          console.log('Submission failed:', response.data.message);
+       } else {
+          console.log('Submission failed:', response.data);
         }
       } catch (error) {
         console.error('API error:', error);
@@ -76,6 +84,7 @@ export default function Addtask({ open, setopen, setdata }) {
     } else {
       console.log('Form has errors');
     }
+  }
 
   };
 

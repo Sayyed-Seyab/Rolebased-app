@@ -89,14 +89,18 @@ const StoreContextProvider = (props) => {
     }
     //   /getall
     const gettasks = async () => {
-        const response = await axios.get(`${url}/api/task/get`, {
+        if(loginId){
+            console.log(loginId)
+        const response = await axios.get(`${url}/api/task/get/${loginId}`, {
             withCredentials: true
         })
+        console.log(response)
         if (response.data.success) {
             console.log(response.data)
             setUsertasks(response.data.tasks)
         }
         console.log('no response')
+    }
     }
     const GetAllTasks = async () => {
         const response = await axios.get(`${url}/api/task/getall`, {

@@ -27,11 +27,11 @@ const taskSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
      ref: 'manager' 
     }, 
-  updatedby:[{
-   id: { type: mongoose.Schema.Types.ObjectId, ref: 'users' }, // Manager ID
-   name: { type: String }, // Manager's name
-   role: { type: String }  // Manager's
-     }],
+  updatedby:{
+   type: mongoose.Schema.Types.ObjectId,
+    ref: 'user',
+     required: true
+     },
 });
 
 const TaskModel = mongoose.model.Tasks || mongoose.model('Tasks', taskSchema);

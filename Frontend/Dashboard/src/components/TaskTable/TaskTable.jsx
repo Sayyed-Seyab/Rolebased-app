@@ -52,11 +52,11 @@ export default function TaskTable() {
         }
     }, [])
 
-    if (!Usertasks || Usertasks.length === 0) { // Check if Allusers is defined and has no length
-        return (
-          <Typography>{taskMessage || "No users task found"}</Typography>
-        );
-      }
+    // if (!Usertasks || Usertasks.length === 0) { // Check if Allusers is defined and has no length
+    //     return (
+    //       <Typography>{taskMessage || "No users task found"}</Typography>
+    //     );
+    //   }
     return (
         <div>
             <Box>
@@ -79,6 +79,7 @@ export default function TaskTable() {
                             </TableRow>
                         </TableHead>
                         <TableBody sx={{ position: 'relative', overflow: 'auto' }}>
+                            {!Usertasks || Usertasks.length === 0? (<><Typography>{taskMessage || "No users task found"}</Typography></>) :null}
                             {Usertasks.map((task) => (
                                 <>
                                     <TableRow

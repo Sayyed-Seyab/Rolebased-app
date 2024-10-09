@@ -26,6 +26,38 @@ export default function UserTable() {
   const [Managerloading, setManagerloading] = useState(true)
   const [selectedManagers, setSelectedManagers] = useState({});
 
+
+  const updateManager = async (_id, managerId, name, role) => {
+    const response = await axios.post(`${url}/api/user/update/${_id}`, {_id, 
+      assigned: { id: managerId, name: name, role: role } 
+    }, {
+      withCredentials: true,
+    });
+    if (response.data.success) {
+        console.log(response.data);
+        getusers();
+        // toast.success("Status Updated Successfully")
+    } else {
+        console.log('not updated');
+        // toast.error('Error')
+    }
+};
+  const handleManagerChange = (event, userId) => {
+    const selectedManager = event.target.value;
+  
+    const managerId = selectedManager._id;
+    const name = selectedManager.name;
+    const role = selectedManager.role;
+  
+    setSelectedManagers((prevSelectedManagers) => ({
+      ...prevSelectedManagers,
+      [userId]: selectedManager, // Update only the targeted user's manager
+    }));
+  
+    // Update manager for the specific user
+    updateManager(userId, managerId, name, role);
+  };
+
   const getusers = async () => {
     try {
       const response = await axios.get(`${url}/api/user/users`, {
@@ -41,6 +73,8 @@ export default function UserTable() {
       console.error('Network error:', error);
     }
   };
+
+ 
 
   const getManagerUsers = async () => {
     const response = await axios.get(`${url}/api/user/assigned/${loginId}`, {

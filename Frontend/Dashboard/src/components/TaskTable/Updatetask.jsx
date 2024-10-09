@@ -10,7 +10,6 @@ export default function Updatetask({Open, setOpenEdit,setUsertasks,selectedItem,
     description: '',
     dueDate: '',
     status: '',
-    createdBy: loginId,
     assignedmanager:'',
     updatedby:loginId,
 
@@ -49,6 +48,7 @@ export default function Updatetask({Open, setOpenEdit,setUsertasks,selectedItem,
       gettasks()
       setOpenEdit(false);
     }
+    
     console.log('no response')
   }
 

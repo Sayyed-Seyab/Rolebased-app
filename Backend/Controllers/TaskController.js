@@ -40,7 +40,7 @@ const Addtask = async (req, res) => {
             status,
             createdBy,
             assignedmanager,
-            updatedby
+            updatedby,
         });
 
         // Save user to database
@@ -117,7 +117,7 @@ const Deletetask = async (req, res) => {
 const Gettasks = async (req, res) => {
     try {
         // Assuming you have a middleware that verifies the token and sets req.user
-        const userId = req.user._id; // Get the logged-in user's ID
+        const userId = req.user.id; // Get the logged-in user's ID
         console.log(userId)
 
         // Query to find tasks where the logged-in user is the creator
@@ -125,7 +125,7 @@ const Gettasks = async (req, res) => {
 
         // If no tasks are found, return 404
         if (!tasks || tasks.length === 0) {
-            return res.status(404).json({ success: false, message: 'No tasks found for this user' });
+            return res.json({ success: false, message: 'No tasks found for this user' });
         }
 
         // Return the tasks created by the user
