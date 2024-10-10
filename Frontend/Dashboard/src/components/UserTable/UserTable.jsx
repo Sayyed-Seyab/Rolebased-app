@@ -20,7 +20,8 @@ export default function UserTable() {
     , taskMessage,
     setTaskMessage,
     managertasks,
-    setManagertasks, } = useContext(StoreContext);
+    setManagertasks,
+    setManagerAssignedUserId } = useContext(StoreContext);
   const [Allusers, setAllusers] = useState([]);
   const [message, setMessage] = useState(null);
   const [Managerloading, setManagerloading] = useState(true)
@@ -90,9 +91,10 @@ export default function UserTable() {
   };
 
   const getTaskId = async (id) => {
-   
+   setManagerAssignedUserId(id)
     console.log(id)
-    const response = await axios.get(`${url}/api/task/get/${id}`, {
+    
+    const response = await axios.get(`${url}/api/task/getmanagertasks/${id}`, {
       withCredentials: true
     })
     console.log(response)

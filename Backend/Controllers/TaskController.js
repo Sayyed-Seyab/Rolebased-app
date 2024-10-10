@@ -78,7 +78,7 @@ const Updatetask = async (req, res) => {
         }
 
         // Return the updated task
-       return  res.status(200).json({ success: true, message:'User deleted successfully' });
+       return  res.status(200).json({ success: true, message:'Task updated successfully' });
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ success: false, Message: 'Error occurred while updating task' });
@@ -99,9 +99,9 @@ const Deletetask = async (req, res) => {
         }
 
         // Ensure that the logged-in user is the creator of the task
-        if (task.createdBy.toString() !== userId.toString()) {
-            return res.status(403).json({ success: false, Message: 'You are not authorized to delete this task' });
-        }
+        // if (task.createdBy.toString() !== userId.toString()) {
+        //     return res.status(403).json({ success: false, Message: 'You are not authorized to delete this task' });
+        // }
 
         // Delete the task
         await TaskModel.findByIdAndDelete(taskId);
@@ -143,7 +143,7 @@ const GetManagertasks = async(req, res)=>{
         console.log(id)
 
         // Query to find tasks where the logged-in user is the creator
-        const tasks = await TaskModel.find({ "createdBy.id": id });
+        const tasks = await TaskModel.find({ createdBy: id });
 
 
         // If no tasks are found, return 404

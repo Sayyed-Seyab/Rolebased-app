@@ -5,12 +5,10 @@ import { Addtask, Updatetask, Deletetask,Gettasks, GetAlltasks,GetManagertasks }
 
 const TaskRouter = express.Router();
 TaskRouter.post('/add',isuser,Addtask)
-TaskRouter.post('/update/:id',isuser, Updatetask)
-TaskRouter.post('/update/:id',isadmin, Updatetask)
-TaskRouter.post('/update/:id',ismanager, Updatetask)
+TaskRouter.post('/update/:id',isAuthorizeduser, Updatetask)
 TaskRouter.delete('/delete/:id',isuserAndadmin, Deletetask)
 TaskRouter.get('/get/:id',isuser, Gettasks)
-TaskRouter.get('/get/:id',ismanager, GetManagertasks)
+TaskRouter.get('/getmanagertasks/:id',ismanager, GetManagertasks)
 TaskRouter.get('/getall',isadmin, GetAlltasks)
 
 // Correctly export the UserRouter

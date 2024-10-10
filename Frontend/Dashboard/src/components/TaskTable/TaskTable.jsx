@@ -50,6 +50,7 @@ export default function TaskTable() {
         if (user == 'admin') {
             GetAllTasks()
         }
+        
     }, [])
 
     // if (!Usertasks || Usertasks.length === 0) { // Check if Allusers is defined and has no length

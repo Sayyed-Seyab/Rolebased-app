@@ -17,6 +17,7 @@ const StoreContextProvider = (props) => {
     const [Usertasks, setUsertasks] = useState([])
     const [managertasks, setManagertasks] = useState([])
     const [taskMessage, setTaskMessage] = useState(null)
+    const [ getManagerAssignedUserId, setManagerAssignedUserId] = useState(null)
     const [logindata, setlogindata] = useState({
         email: '',
         password: '',
@@ -112,6 +113,21 @@ const StoreContextProvider = (props) => {
         }
         console.log('no response')
     }
+    const GetManagerUsers = async()=>{
+      const id =  getManagerAssignedUserId
+    
+        const response = await axios.get(`${url}/api/task/getmanagertasks/${id}`, {
+          withCredentials: true
+        })
+        console.log(response)
+        if (response.data.success) {
+          setUsertasks(response.data.tasks)
+          console.log(response.data.tasks)
+        }else{
+        setTaskMessage(response.data.message);
+        console.log(taskMessage)
+        }
+    }
 
 
 
@@ -144,6 +160,9 @@ const StoreContextProvider = (props) => {
         setTaskMessage,
         managertasks,
         setManagertasks,
+        GetManagerUsers,
+        setManagerAssignedUserId,
+        
     };
 
     return (
