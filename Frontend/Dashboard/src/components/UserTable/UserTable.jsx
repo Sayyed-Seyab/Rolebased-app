@@ -5,6 +5,7 @@ import { StoreContext } from '../Context/Storecontext';
 import axios from 'axios';
 import './style.css';
 import { useNavigate } from 'react-router-dom';
+import UserAlert from './UserAlert';
 
 
 export default function UserTable() {
@@ -21,11 +22,14 @@ export default function UserTable() {
     setTaskMessage,
     managertasks,
     setManagertasks,
+    open,
+    setOpen,
     setManagerAssignedUserId } = useContext(StoreContext);
   const [Allusers, setAllusers] = useState([]);
   const [message, setMessage] = useState(null);
   const [Managerloading, setManagerloading] = useState(true)
   const [selectedManagers, setSelectedManagers] = useState({});
+  const [dltTaskId, setdltTaskId] = useState(null)
 
 
   const updateManager = async (_id, managerId, name, role) => {
@@ -111,6 +115,10 @@ export default function UserTable() {
     navigate('/Dashboard/tasks')
   }
 
+  const deleteuser = async(id)=>{
+    setdltTaskId(id)
+    setOpen(true)
+  }
   useEffect(() => {
     if (user === 'admin') {
       getusers();
@@ -131,6 +139,7 @@ if(Managerloading){
 
   return (
     <div>
+      <UserAlert dltTaskId={dltTaskId} getusers={getusers}/>
       <TableContainer component={Paper} sx={{ height: '80vh' }}>
         <Table stickyHeader sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>

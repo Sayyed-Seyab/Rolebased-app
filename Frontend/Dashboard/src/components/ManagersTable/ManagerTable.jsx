@@ -5,12 +5,15 @@ import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined
 import {CircularProgress } from '@mui/material';
 import { StoreContext } from '../Context/Storecontext';
 import axios from 'axios';
+import UserAlert from './UserAlert';
 // import axios from 'axios';
 // import { toast } from 'react-toastify';
 
 export default function ManagerTable() {
     const {url} = useContext(StoreContext);
     const [AllManagers, setAllManagers] = useState([])
+    const [managerId, setmanagerId] = useState(null)
+    const [open,setOpen] = useState(false)
     const getManagers = async ()=>{
         const response = await axios.get(`${url}/api/user/managers`,{
             withCredentials:true
@@ -23,21 +26,24 @@ export default function ManagerTable() {
     }
 
     const deletmanager = async (id) => {
-        const response = await axios.delete(`${url}/api/user/deletemanager/${id}`, {
-          withCredentials: true, // Ensure cookies are sent and stored
-        });
-        if (response.data.success) {
-            // console.log(response.data)
-          setAllManagers(AllManagers.filter((manager) => manager._id !== id));
-        } else {
-          console.log('Error deleting user');
-        }
+        setmanagerId(id)
+        setOpen(true)
+        // const response = await axios.delete(`${url}/api/user/deletemanager/${id}`, {
+        //   withCredentials: true, // Ensure cookies are sent and stored
+        // });
+        // if (response.data.success) {
+        //     // console.log(response.data)
+        //   setAllManagers(AllManagers.filter((manager) => manager._id !== id));
+        // } else {
+        //   console.log('Error deleting user');
+        // }
       };
     useEffect(()=>{
         getManagers()
     },[])
   return (
     <div>
+        <UserAlert open={open}  setOpen={setOpen} getManagers={getManagers} managerId={managerId}/>
         <TableContainer component={Paper} sx={{ height: '80vh' }} >
                     <Table stickyHeader sx={{ minWidth: 650, background: 'red', }} aria-label="simple table">
                         <TableHead>

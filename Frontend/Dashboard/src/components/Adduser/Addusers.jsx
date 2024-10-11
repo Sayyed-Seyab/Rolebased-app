@@ -17,57 +17,63 @@ import { StoreContext } from '../Context/Storecontext';
 import axios from 'axios';
 
 export default function Addusers() {
-const {url} = useContext(StoreContext)
-const [error, setError] = useState(null)
-const [Adduser, setAdduerData] = useState({
-    name:'',
-    email:'',
-    password:'',
-    role:'',
-    
-})
-// Form validation logic
-const validateForm = () => {
-    const { name, email, password, role } = Adduser;
+    const { url } = useContext(StoreContext)
+    const [error, setError] = useState(null)
+    const [Adduser, setAdduerData] = useState({
+        name: '',
+        email: '',
+        password: '',
+        role: '',
 
-    if (!name || !email || !password || !role) {
-        setError('All fields are required');
-        return false;
-    }
-    if (password.length < 8) {
-        setError('Password must be at least 8 characters long');
-        return false;
-    }
-    setError(null);
-    return true;
-};
+    })
+    // Form validation logic
+    const validateForm = () => {
+        const { name, email, password, role } = Adduser;
 
-const handlerChange = (event)=>{
-    const {name, value} = event.target
-    setAdduerData((prevdata)=>({
-        ...prevdata,
-        [name]: value 
-    }))
-}
-    const OnSubmithandler = async(e) => {
+        if (!name || !email || !password || !role) {
+            setError('All fields are required');
+            return false;
+        }
+        if (password.length < 8) {
+            setError('Password must be at least 8 characters long');
+            return false;
+        }
+        setError(null);
+        return true;
+    };
+
+    const handlerChange = (event) => {
+        const { name, value } = event.target
+        setAdduerData((prevdata) => ({
+            ...prevdata,
+            [name]: value
+        }))
+    }
+    const OnSubmithandler = async (e) => {
         e.preventDefault();
 
         if (!validateForm()) {
             return;
         }
-     const response = await axios.post(`${url}/api/user/add`,Adduser, {
-        withCredentials: true // Make sure cookies are sent and stored
-    })
-       if(response.data.success){
-        console.log(response.data)
-        alert('User added successfully')
-       }     
-      setError(response.data.Message)
+        const response = await axios.post(`${url}/api/user/add`, Adduser, {
+            withCredentials: true // Make sure cookies are sent and stored
+        })
+        if (response.data.success) {
+            console.log(response.data)
+            setAdduerData({
+                name: '',
+                email: '',
+                password: '',
+                role: '',
+            })
+            alert('User added successfully')
+        }
+        setError(response.data.Message)
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log(Adduser)
-    },[Adduser])
+    }, [Adduser])
     return (
         <div>
             <Box mt={2} component={Paper} sx={{ padding: 2 }}>
@@ -181,7 +187,7 @@ const handlerChange = (event)=>{
                                         sx={{ mt: 3, mb: 2 }}
                                     />
                                 </Box>
-                                {error && <div style={{ color: 'red',textAlign: 'center' }}>{error}</div>}
+                                {error && <div style={{ color: 'red', textAlign: 'center' }}>{error}</div>}
                             </Box>
                         </Box>
                     </Box>

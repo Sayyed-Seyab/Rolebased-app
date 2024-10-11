@@ -224,7 +224,31 @@ const Updateuser = async(req, res)=>{
         res.json({ success: false, Message: 'Error' });
       }
 }
+const GetManagerUsersAndUnAssigned = async (req, res) => {
+    try {
+        // Assuming you have a middleware that verifies the token and sets req.user
+        const id = req.params.id; // Get the logged-in manager ID
+        console.log(id)
+        // Query to find users where the logged-in manager is the creator
+        const users = await UserModel.find({ 'assigned.id': id });
+         // If no users are found, return 404
+         if (!users || users.length === 0) {
+            return res.json({ success: false, message: 'No users found for this Manager' });
+        }
+         // Set id, name, and role to an empty string for each assigned user
+         await UserModel.updateMany(
+            { assigned: null },
+           
+        );
 
+
+        // Return the users created by the user
+        return res.json({ success: true, users, message: 'Users  deleted successfully' });
+    } catch (error) {
+        console.error('Error:', error);
+        return res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+}
 // Deletemanager
 const Deletemanager = async(req, res)=>{
     try{
@@ -246,16 +270,16 @@ const Deletemanager = async(req, res)=>{
     //   }
         const user = await UserModel.findById(id);
         if(!user ){
-            return res.status(404).json({success:false, Messaage:'Manager not found'})
+            return res.status(404).json({success:false, messaage:'Manager not found'})
         }
         await UserModel.findByIdAndDelete(id);
-       return  res.status(200).json({success: true, Message:'Manager deleted successfully'})
+       return  res.status(200).json({success: true, message:'Manager deleted successfully'})
     }catch(error){
         console.log(error);
-        return res.status(500).json({success: false, Message:'Internal server error'})
+        return res.status(500).json({success: false, message:'Internal server error'})
 
     }
 }
 
 
-export { Adduser, loginUser,findrole, logout,Getusers,Getuser, GetAssignedusers, Getmanagers,Deleteuser,Updateuser,Deletemanager};
+export { Adduser, loginUser,findrole, logout,Getusers,Getuser, GetAssignedusers, Getmanagers,Deleteuser,Updateuser,GetManagerUsersAndUnAssigned ,Deletemanager};

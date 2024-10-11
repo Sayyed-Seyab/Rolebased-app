@@ -60,7 +60,7 @@ const Updatetask = async (req, res) => {
 
         // Find the task by ID and update it
         const task = await TaskModel.findByIdAndUpdate(
-            id, 
+            id,
             {
                 title,
                 description,
@@ -78,7 +78,7 @@ const Updatetask = async (req, res) => {
         }
 
         // Return the updated task
-       return  res.status(200).json({ success: true, message:'Task updated successfully' });
+        return res.status(200).json({ success: true, message: 'Task updated successfully' });
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ success: false, Message: 'Error occurred while updating task' });
@@ -136,7 +136,7 @@ const Gettasks = async (req, res) => {
     }
 };
 
-const GetManagertasks = async(req, res)=>{
+const GetManagertasks = async (req, res) => {
     try {
         // Assuming you have a middleware that verifies the token and sets req.user
         const id = req.params.id; // Get the logged-in user's ID
@@ -151,8 +151,35 @@ const GetManagertasks = async(req, res)=>{
             return res.json({ success: false, message: 'No tasks found for this user' });
         }
 
+        // Delete the task
+        await TaskModel.findByIdAndDelete(taskId);
+
         // Return the tasks created by the user
-      return  res.status(200).json({ success: true, tasks });
+        return res.status(200).json({ success: true, tasks });
+    } catch (error) {
+        console.error('Error:', error);
+        return res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+}
+
+
+const GetUsertasksAndDlt = async (req, res) => {
+    try {
+        // Assuming you have a middleware that verifies the token and sets req.user
+        const id = req.params.id; // Get the logged-in user's ID
+        console.log(id)
+        // Query to find tasks where the logged-in user is the creator
+        const tasks = await TaskModel.find({ createdBy: id });
+         // If no tasks are found, return 404
+         if (!tasks || tasks.length === 0) {
+            return res.json({ success: false, message: 'No tasks found for this user' });
+        }
+        // Check if the task exists and belongs to the logged-in user
+         await TaskModel.deleteMany({ createdBy: id });
+
+
+        // Return the tasks created by the user
+        return res.json({ success: true, tasks, message: 'User tasks deleted successfully' });
     } catch (error) {
         console.error('Error:', error);
         return res.status(500).json({ success: false, message: 'Internal server error' });
@@ -176,4 +203,4 @@ const GetAlltasks = async (req, res) => {
         return res.status(500).json({ success: false, message: 'Internal server error' });
     }
 }
-export { Addtask, Updatetask, Deletetask, Gettasks, GetAlltasks,GetManagertasks  }
+export { Addtask, Updatetask, Deletetask, Gettasks, GetAlltasks, GetManagertasks, GetUsertasksAndDlt }
